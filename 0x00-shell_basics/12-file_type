@@ -1,2 +1,2 @@
 #!/bin/bash
-file -b /tmp/iamafile | tr -d '\n'
+file /tmp/iamfile
