@@ -1,1 +1,1 @@
-this is a readme for variable
+This is a director that holds files and functions related to variables in c
