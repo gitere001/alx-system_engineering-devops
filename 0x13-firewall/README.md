@@ -19,6 +19,5 @@ sudo ufw default deny incoming
 sudo ufw allow 22/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 80/tcp
-
-### Configuration File: 100-port_forwarding
+Configuration File: 100-port_forwarding
 Configure web-01 so that its firewall redirects port 8080/TCP to port 80/TCP.
