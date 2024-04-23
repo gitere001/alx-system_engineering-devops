@@ -1,7 +1,21 @@
 #!/usr/bin/python3
 
-"""Python script that, using this REST API, for a given employee ID, returns
-information about his/her TODO list progress."""
+"""Returns to-do list information for a given employee ID.
+
+This script retrieves the to-do list information for a specified employee ID
+from a REST API and prints it out. It displays the number of completed tasks
+and the total number of tasks for the employee.
+
+Usage:
+    python3 get_todo_info.py [employee_id]
+
+Arguments:
+    employee_id (int): The ID of the employee whose to-do list information
+                       needs to be retrieved and displayed.
+
+Example:
+    python3 get_todo_info.py 1
+"""
 
 import requests
 import sys
@@ -14,7 +28,7 @@ if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
 
     # Fetching user information
-    user_response = requests.get(url + f"users/{user_id}")
+    user_response = requests.get(url + "users/{}".format(user_id))
     user = user_response.json()
 
     # Fetching user's to-do list
