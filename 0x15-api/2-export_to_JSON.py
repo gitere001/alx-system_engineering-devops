@@ -1,43 +1,51 @@
 #!/usr/bin/python3
-import requests
-from sys import argv
+
+"""Exports to-do list information for a given employee ID to JSON format.
+
+This script retrieves the to-do list information for a specified employee ID
+from a REST API and exports it to a JSON file. The to-do list information
+includes the task title, completion status, and the username of the employee.
+
+Usage:
+    python3 export_todo_to_json.py [employee_id]
+
+Arguments:
+    employee_id (int): The ID of the employee whose to-do list information
+                       needs to be exported to JSON.
+
+Example:
+    python3 export_todo_to_json.py 1
+"""
+
 import json
-
-
-def Retrieve_User_Information(employee_id):
-    employee_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = (f"https://jsonplaceholder."
-                f"typicode.com/todos?userId={employee_id}")
-
-    # Fetching employee data
-    employee_response = requests.get(employee_url)
-    employee_data = employee_response.json()
-    employee_name = employee_data['name']
-
-    # fetching todo data
-    todo_response = requests.get(todo_url)
-    todo_data = todo_response.json()
-
-    completed_tasks = sum(1 for task in todo_data if task['completed'])
-    total_tasks = len(todo_data)
-
-    print(f"Employee {employee_name} is done with tasks {completed_tasks}/"
-          f"{total_tasks}:")
-    for task in todo_data:
-        if task['completed']:
-            print(f"\t{task['title']}")
-
-    filename = f"{employee_id}.json"
-    with open(filename, "w") as f:
-        for task in todo_data:
-            json.dump({employee_id: [{"task": task.get("title"),
-                                      "completed": task.get("completed"),
-                                      "username": employee_name}]}, f)
-
+import requests
+import sys
 
 if __name__ == "__main__":
-    if len(argv) != 2:
-        exit(1)
+    # Extracting user ID from command-line argument
+    user_id = sys.argv[1]
 
-    employee_id = argv[1]
-    Retrieve_User_Information(employee_id)
+    # Base URL for the API
+    url = "https://jsonplaceholder.typicode.com/"
+
+    # Fetching user information
+    user_response = requests.get(url + "users/{}".format(user_id))
+    user = user_response.json()
+    username = user.get("username")
+
+    # Fetching user's to-do list
+    todos_response = requests.get(url + "todos", params={"userId": user_id})
+    todos = todos_response.json()
+
+    # Creating dictionary to store to-do list information
+    todo_data = {
+        user_id: [{
+            "task": t.get("title"),
+            "completed": t.get("completed"),
+            "username": username
+        } for t in todos]
+    }
+
+    # Exporting to-do list information to JSON file
+    with open("{}.json".format(user_id), "w") as jsonfile:
+        json.dump(todo_data, jsonfile)
