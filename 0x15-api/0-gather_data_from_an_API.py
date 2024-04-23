@@ -6,6 +6,7 @@ from sys import argv
 
 
 def Retrieve_User_Information(employee_id):
+    """Retrieve information about a user's TODO list progress."""
     employee_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
     todo_url = (f"https://jsonplaceholder."
                 f"typicode.com/todos?userId={employee_id}")
