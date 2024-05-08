@@ -17,7 +17,7 @@ def top_ten(subreddit):
     :return: None
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    headers = {'User-Agent': 'YourBot/01'}
+    headers = {'User-Agent': 'custom'}
     params = {'limit': 10}  # Limiting to 10 posts
     response = requests.get(url, headers=headers, params=params)
     if response.status_code == 200:

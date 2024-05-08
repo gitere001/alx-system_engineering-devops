@@ -18,7 +18,7 @@ def number_of_subscribers(subreddit):
     is invalid or not found.
     """
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'user-agent': 'YourBot/01'}
+    headers = {'user-agent': 'custom'}
     response = requests.get(url, headers=headers)
     data = response.json()
     if 'data' in data and 'subscribers' in data['data']:
